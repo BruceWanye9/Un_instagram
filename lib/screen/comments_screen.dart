@@ -18,7 +18,7 @@ class CommentsScreen extends StatefulWidget {
 
 class _CommentsScreenState extends State<CommentsScreen> {
   final TextEditingController commentEditingController =
-  TextEditingController();
+      TextEditingController();
 
   void postComment(String uid, String name, String profilePic) async {
     try {
@@ -83,14 +83,14 @@ class _CommentsScreenState extends State<CommentsScreen> {
         child: Container(
           height: kToolbarHeight,
           margin:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           padding: const EdgeInsets.only(left: 16, right: 8),
           child: Row(
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(user.photoUrl),
                 radius: 18,
-              ),
+              ), 
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16, right: 8),
@@ -111,7 +111,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                 ),
                 child: Container(
                   padding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   child: const Text(
                     'Post',
                     style: TextStyle(color: Colors.blue),
