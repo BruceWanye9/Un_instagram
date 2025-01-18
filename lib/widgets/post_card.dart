@@ -5,7 +5,7 @@ import 'package:mlsc_uninstagram_project/providers/user_provider.dart';
 import 'package:mlsc_uninstagram_project/resources/firestore_methods.dart';
 import 'package:mlsc_uninstagram_project/screen/comments_screen.dart';
 import 'package:mlsc_uninstagram_project/utils/colors.dart';
-import 'package:mlsc_uninstagram_project/utils/global_variable.dart';
+import 'package:mlsc_uninstagram_project/utils/global_variables.dart';
 import 'package:mlsc_uninstagram_project/utils/utils.dart';
 import 'package:mlsc_uninstagram_project/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
