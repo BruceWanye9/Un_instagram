@@ -41,6 +41,9 @@ dependencies:
   firebase_auth: ^5.3.4
   uuid: ^4.5.1
   firebase_storage: ^12.4.1
+  rive: ^0.13.20
+  image_picker: ^1.1.2
+  firebase_core: ^3.10.1
 
 dev_dependencies:
   flutter_test:
@@ -75,10 +78,10 @@ rive: ^0.9.0
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/to/asset-from-package
 assets:
-    - assets/Picsart_25-01-05_09-39-15-239.jpg
-    - assets/login-teddy.riv
+    -  assets/IMG_20250105_103711.jpg
+    -  assets/login-teddy.riv
     - assets/Login.jpg
-  
+    
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

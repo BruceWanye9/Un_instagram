@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "939605484817",
-    "project_id": "uninstagram01",
-    "storage_bucket": "uninstagram01.firebasestorage.app"
+    "project_number": "236116239051",
+    "project_id": "mlsc-uninstagram",
+    "storage_bucket": "mlsc-uninstagram.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:939605484817:android:11867427d190ccf5a898b0",
+        "mobilesdk_app_id": "1:236116239051:android:ba95677677ad5354e6b14e",
         "android_client_info": {
           "package_name": "com.example.mlsc_uninstagram_project"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAe99lVPAwlai210c-RdmlfTchUAzVE2So"
+          "current_key": "AIzaSyB2aIRtukaj9KhIGwZBvRLm9w7UURKohzo"
         }
       ],
       "services": {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uninstagram/post_card.dart';
+import 'package:mlsc_uninstagram_project/post_card.dart';
 
 class FeedScreen extends StatelessWidget {
   const FeedScreen({super.key});

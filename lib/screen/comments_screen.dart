@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class CommentsScreen extends StatefulWidget {
   final postId;
-  const CommentsScreen({Key? key, required this.postId}) : super(key: key);
+  const CommentsScreen({super.key, required this.postId});
 
   @override
   _CommentsScreenState createState() => _CommentsScreenState();
@@ -90,7 +90,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
               CircleAvatar(
                 backgroundImage: NetworkImage(user.photoUrl),
                 radius: 18,
-              ), 
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16, right: 8),

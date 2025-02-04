@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// Reupload
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
   @override
   _SignupPageState createState() => _SignupPageState();
 }
+
 class _SignupPageState extends State<SignupPage> {
-  // Input controllers and focus nodes
-  FocusNode emailFocusNode = FocusNode();
-  TextEditingController emailController = TextEditingController();
+  final FocusNode emailFocusNode = FocusNode();
+  final TextEditingController emailController = TextEditingController();
 
-  FocusNode passwordFocusNode = FocusNode();
-  TextEditingController passwordController = TextEditingController();
+  final FocusNode usernameFocusNode = FocusNode();
+  final TextEditingController usernameController = TextEditingController();
 
-  // Rive animation controller and inputs
+  final FocusNode passwordFocusNode = FocusNode();
+  final TextEditingController passwordController = TextEditingController();
+
   StateMachineController? controller;
   SMIInput<bool>? isChecking;
   SMIInput<double>? numLook;
@@ -26,18 +29,22 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   void initState() {
-    emailFocusNode.addListener(emailFocus);
-    passwordFocusNode.addListener(passwordFocus);
     super.initState();
+    emailFocusNode.addListener(emailFocus);
+    usernameFocusNode.addListener(usernameFocus);
+    passwordFocusNode.addListener(passwordFocus);
   }
 
   @override
   void dispose() {
     emailFocusNode.removeListener(emailFocus);
+    usernameFocusNode.removeListener(usernameFocus);
     passwordFocusNode.removeListener(passwordFocus);
     emailFocusNode.dispose();
+    usernameFocusNode.dispose();
     passwordFocusNode.dispose();
     emailController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -45,6 +52,8 @@ class _SignupPageState extends State<SignupPage> {
   void emailFocus() {
     isChecking?.change(emailFocusNode.hasFocus);
   }
+
+  void usernameFocus() {}
 
   void passwordFocus() {
     isHandsUp?.change(passwordFocusNode.hasFocus);
@@ -60,6 +69,54 @@ class _SignupPageState extends State<SignupPage> {
         );
       },
     );
+  }
+
+  Future<void> _register() async {
+    final String email = emailController.text.trim();
+    final String username = usernameController.text.trim();
+    final String password = passwordController.text.trim();
+
+    if (email.isEmpty || username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill all fields')),
+      );
+      return;
+    }
+
+    try {
+      await _showLoadingDialog(context);
+
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user?.uid)
+          .set({
+        'username': username,
+        'email': email,
+      });
+
+      if (mounted) Navigator.pop(context);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User created successfully!')),
+      );
+
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/login');
+      }
+    } on FirebaseAuthException catch (e) {
+      if (mounted) Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Registration failed: ${e.message}')),
+      );
+    } catch (e) {
+      if (mounted) Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('An error occurred: $e')),
+      );
+    }
   }
 
   @override
@@ -109,6 +166,7 @@ class _SignupPageState extends State<SignupPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Email Field
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
@@ -132,6 +190,28 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                   const SizedBox(height: 8),
+
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: TextField(
+                      focusNode: usernameFocusNode,
+                      controller: usernameController,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Username",
+                      ),
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
@@ -153,31 +233,12 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                   const SizedBox(height: 32),
+
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 64,
                     child: ElevatedButton(
-                      onPressed: () async {
-                        emailFocusNode.unfocus();
-                        passwordFocusNode.unfocus();
-
-                        final email = emailController.text;
-                        final password = passwordController.text;
-
-                        await _showLoadingDialog(context);
-                        await Future.delayed(
-                          const Duration(milliseconds: 2000),
-                        );
-                        if (mounted) Navigator.pop(context);
-
-                        // Replace this logic with your dynamic validation
-                        if (email.isNotEmpty && password.isNotEmpty) {
-                          trigSuccess?.change(true);
-                          // Navigate to next screen or perform action
-                        } else {
-                          trigFail?.change(true);
-                        }
-                      },
+                      onPressed: _register,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(
@@ -188,6 +249,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
+
                   TextButton(
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, '/login');

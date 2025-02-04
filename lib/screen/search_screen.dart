@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:mlsc_uninstagram_project/flutter_staggered_grid_view.dart';
-import 'package:mlsc_uninstagram_project/screens/profile_screen.dart';
+import 'package:mlsc_uninstagram_project/screen/profile_screen.dart';
+
 import 'package:mlsc_uninstagram_project/utils/colors.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
